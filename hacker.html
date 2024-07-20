@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackerMan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* Import a hacker-style font */
+
+        body {
+            background-color: black;
+            color: green;
+            font-family: 'Press Start 2P', monospace; /* Use the imported hacker-style font */
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-y: auto; /* Allow scrolling if content overflows */
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), /* Darker gradient */
+                url('hacker-img.png'); /* Set the background image */
+            background-size: cover; /* Ensure the image covers the entire viewport */
+            background-position: center; /* Center the background image */
+            background-attachment: fixed; /* Fix the background image in place */
+            transition: background-image 1s ease-in-out; /* Smooth transition for background image change */
+        }
+
+        .message {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 20px; /* Add space between messages */
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+        }
+
+        .prompt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8); /* Black overlay for the entire viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none; /* Hide by default */
+        }
+
+        .prompt-box {
+            background: black;
+            color: green;
+            border: 3px solid red;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); /* Add a shadow effect for a threatening look */
+            font-size: 20px;
+            font-family: 'Press Start 2P', monospace; /* Ensure the font is applied */
+        }
+
+        .prompt-box input {
+            color: black;
+            padding: 12px;
+            border: 2px solid red;
+            border-radius: 5px;
+            background: white;
+            width: 250px; /* Adjust width as needed */
+            font-size: 16px;
+            font-family: 'Press Start 2P', monospace; /* Ensure the font is applied */
+        }
+
+        .prompt-box button {
+            background: red;
+            color: black;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Press Start 2P', monospace; /* Ensure the font is applied */
+        }
+
+        .prompt-box button:hover {
+            background: darkred;
+        }
+        @media (max-width: 300px) {
+    .prompt-box {
+        width: 70%; /* Adjust width as needed */
+        padding: 20px;
+    }
+    .prompt-box input {
+        width: 100%; /* Full width of the container */
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- Custom Prompt Box -->
+    <div id="prompt-overlay" class="prompt-overlay">
+        <div class="prompt-box">
+            <p>Enter Username:</p>
+            <input type="text" id="username-input" />
+            <button onclick="submitUsername()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        // Show the custom prompt box
+        function showCustomPrompt() {
+            document.getElementById('prompt-overlay').style.display = 'flex';
+        }
+
+        function submitUsername() {
+            const username = document.getElementById('username-input').value;
+            if (username) {
+                document.getElementById('prompt-overlay').style.display = 'none';
+                displayAllMessages(username);
+            }
+        }
+
+        const arr = [
+            "Initializing Hacker...",
+            "Hacker Initialized!!!",
+            "Targetting Instagram...",
+            "Finding UserName...",
+            "Username Found!!! @user.somaiya !!!",    
+            "Trying Password Combinations...",
+            "Trying More Password Combinations...",
+            "Password Match Found !!!",
+            "Initializing Hack...",
+            "Instagram Hacked !!!"
+        ];
+
+        async function displayMessage(i) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.innerHTML = arr[i];
+                    document.body.appendChild(messageDiv);
+                    resolve();
+                }, 1500); // Delay adjusted to ensure proper sequencing
+            });
+        }
+
+        async function displayAllMessages(username) {
+            arr[4] = arr[4].replace("user", username); // Update the message with the username
+
+            for (let i = 0; i < arr.length; i++) {
+                await displayMessage(i);
+            }
+        }
+
+        // Show the custom prompt box when the page loads
+        showCustomPrompt();
+    </script>
+</body>
+</html>
